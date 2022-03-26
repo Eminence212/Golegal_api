@@ -34,6 +34,23 @@ const ordersControllers = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getAllTables: async (req, res) => {
+    try {
+      const tablesList = [];
+      const data = await sequelize.query(
+        "SELECT * FROM information_schema.tables WHERE table_schema = 'public';",
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+      data.map(item => {
+        tablesList.push(item.table_name);
+      });
+      res.json(tablesList);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = ordersControllers;
