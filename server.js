@@ -18,7 +18,7 @@ const swaggerOptions = {
       contact: {
         name: '',
       },
-      servers: ['http://localhost:8000'],
+      servers: ['http://localhost:8000', 'https://golegalapi.herokuapp.com'],
     },
   },
   //['.routes/*.js']

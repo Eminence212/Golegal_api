@@ -29,7 +29,13 @@ const ordersControllers = {
       const list = await sequelize.query('SELECT * FROM ' + table_slug, {
         type: QueryTypes.SELECT,
       });
-      res.json(list);
+      const columns = await sequelize.query(
+        'select * from  INFORMATION_SCHEMA.COLUMNS',
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+      res.json({ list, columns });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
