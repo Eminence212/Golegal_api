@@ -48,24 +48,12 @@ app.use(
  * - name: "Golegal"
  *   description: "Operations about Golegal"
  * paths:
- *  /api/golegal/load:
- *    post:
+ *  /api/golegal:
+ *    get:
  *       tags:
  *       - "Golegal"
- *       summary: create data tables and load data in the data base
- *       description: Use to create data tables and to load data in the data base
- *       parameters:
- *         - in: body
- *           name: body
- *           required: true
- *           description: Body of request
- *           schema:
- *             $ref: '#/definitions/Script'
- *       requestBody:
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/definitions/Script'
+ *       summary: get all tables
+ *       description: Use to get all tables
  *       responses :
  *          200:
  *             description: A successful response
@@ -85,6 +73,29 @@ app.use(
  *           required: true
  *           description: Table name
  *           example: action_participant_custom_data_values
+ *       responses :
+ *          200:
+ *             description: A successful response
+ *          500:
+ *            description: Failure of data recovery
+ *  /api/golegal/load:
+ *    post:
+ *       tags:
+ *       - "Golegal"
+ *       summary: create data tables and load data in the data base
+ *       description: Use to create data tables and to load data in the data base
+ *       parameters:
+ *         - in: body
+ *           name: body
+ *           required: true
+ *           description: Body of request
+ *           schema:
+ *             $ref: '#/definitions/Script'
+ *       requestBody:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Script'
  *       responses :
  *          200:
  *             description: A successful response
