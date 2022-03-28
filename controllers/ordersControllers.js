@@ -1,24 +1,27 @@
 const { sequelize } = require('../models');
 const { QueryTypes } = require('@sequelize/core');
+const formidable = require('formidable');
 require('dotenv').config();
 const ordersControllers = {
   loadData: async (req, res) => {
     const { script } = req.body;
     try {
-      if (!script)
-        return res.status(400).json({ msg: 'Veuillez remplir le champ vide.' });
-      const [data, metaData] = await sequelize.query(script.trim());
-      const tablesList = [];
-      const tables = await sequelize.query(
-        "SELECT * FROM information_schema.tables WHERE table_schema = 'public';",
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-      tables.map(item => {
-        tablesList.push(item.table_name);
-      });
-      res.json(tablesList);
+      // if (!script)
+      //   return res.status(400).json({ msg: 'Veuillez remplir le champ vide.' });
+      // const [data, metaData] = await sequelize.query(script.trim());
+      // const tablesList = [];
+      // const tables = await sequelize.query(
+      //   "SELECT * FROM information_schema.tables WHERE table_schema = 'public';",
+      //   {
+      //     type: QueryTypes.SELECT,
+      //   }
+      // );
+      // tables.map(item => {
+      //   tablesList.push(item.table_name);
+      // });
+      // res.json(tablesList);
+
+      res.json(req.body);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -29,13 +32,7 @@ const ordersControllers = {
       const list = await sequelize.query('SELECT * FROM ' + table_slug, {
         type: QueryTypes.SELECT,
       });
-      const columns = await sequelize.query(
-        'select * from  INFORMATION_SCHEMA.COLUMNS',
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-      res.json({ list, columns });
+      res.json(list);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

@@ -1,4 +1,6 @@
 require('dotenv').config();
+const formidable = require('formidable');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -58,7 +60,7 @@ app.use(
  *          200:
  *             description: A successful response
  *          500:
- *            description: Failure of data recovery
+ *            description: Failure of response
  *  /api/golegal/{table_slug}:
  *    get:
  *       tags:
@@ -77,7 +79,7 @@ app.use(
  *          200:
  *             description: A successful response
  *          500:
- *            description: Failure of data recovery
+ *            description: Failure of response
  *  /api/golegal/load:
  *    post:
  *       tags:
@@ -100,10 +102,27 @@ app.use(
  *          200:
  *             description: A successful response
  *          500:
- *            description: Failure of data recovery
+ *            description: Failure of response
  */
 app.use('/api/golegal', require('./routes/ordersRoutes'));
-
+// app.use('/', require('./routes/formRoutes'));
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+app.post('/', (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req);
+  form.on('fileBegin', function (name, file) {
+    file.push = __dirname + '/uploads/' + file.name;
+  });
+  form.on('file', function (name, file) {
+    if (file.name === undefined) {
+      return res.status(400).json({ msg: 'Veuillez sélectionner un fichier' });
+    }
+    console.log('Uploaded file : ', file.name);
+  });
+  res.sendFile(__dirname + '/index.html');
+});
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
