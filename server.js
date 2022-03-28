@@ -91,18 +91,17 @@ app.use(
  *       - "Golegal"
  *       summary: create data tables and load data in the data base
  *       description: Use to create data tables and to load data in the data base
+ *       operationId: "uploadFile"
+ *       consumes:
+ *       - "multipart/form-data"
+ *       produces:
+ *       - "application/json"
  *       parameters:
- *         - in: body
- *           name: body
- *           required: true
- *           description: Body of request
- *           schema:
- *             $ref: '#/definitions/Script'
- *       requestBody:
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/definitions/Script'
+ *       - name: "script"
+ *         in: "formData"
+ *         description: "file to upload"
+ *         required: true
+ *         type: "file"
  *       responses :
  *          200:
  *             description: A successful response
