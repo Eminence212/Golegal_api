@@ -21,6 +21,7 @@
   "dependencies": {
     "@sequelize/core": "^7.0.0-alpha.10",
     "batch": "^0.6.1",
+    "child_process": "^1.0.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",

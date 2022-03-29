@@ -1,11 +1,9 @@
 require('dotenv').config();
 const multer = require('multer');
-const fs = require('fs');
-const { Client } = require('pg');
-var Batch = require('batch'),
-  batch = new Batch();
-const { sequelize } = require('./models');
-const { QueryTypes } = require('@sequelize/core');
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/config')[env];
+
+const { exec } = require('child_process');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -134,26 +132,25 @@ app.post(
   async (req, res, next) => {
     try {
       const file = req.file;
-      const client = new Client();
+      // const client = new Client();
       if (!file) return res.status(500).json({ msg: 'Please upload a file' });
 
       const extension = file.originalname.match(regex);
       if (extension != 'sql')
         return res.status(400).json({ msg: 'Please upload a sql file' });
       const path = __dirname + '/uploads/' + file.originalname;
-      const queries = fs
-        .readFileSync(path)
-        .toString()
-        .replace(/(\r\n|\n|\r)/gm, ' ') //remove newlines
-        .replace(/\s+/g, ' ') //excess white space
-        .split(';') //split into all statements
-        .map(Function.prototype.call, String.prototype.trim)
-        .filter(function (el) {
-          return el.length != 0;
-        }); //remove any empty ones
-      const [results, metadata] = await sequelize.query(queries.join(';'));
-      fs.unlinkSync(path);
-      res.send({ msg: 'Success' });
+
+      const cmd =
+        'set PGPASSWORD=' +
+        config.password +
+        '&& psql -h beccqwphapuxxlayapg8-postgresql.services.clever-cloud.com -p 5432 -U ued4nrxegaud0kgua4cx -d beccqwphapuxxlayapg8 -f uploads/' +
+        file.originalname;
+      exec(cmd, (err, stdout, stderr) => {
+        if (err) {
+          return res.status(500).json({ Err: err });
+        }
+        res.status(301).sendFile(__dirname + '/index.html');
+      });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
