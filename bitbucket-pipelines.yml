@@ -33,7 +33,7 @@ definitions:
             variables:
               SSH_USER: $USER
               SERVER: $SERVER
-              COMMAND: "cd www && npm install && pm2 start"
+              COMMAND: "cd www && npm-node14 install && pm2 start"
               DEBUG: "true"
               PORT: $PORT
 
