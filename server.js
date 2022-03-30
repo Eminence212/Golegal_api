@@ -149,8 +149,9 @@ app.post(
         if (err) {
           return res.status(500).json({ Err: err });
         }
-        res.status(301).sendFile(__dirname + '/index.html');
+        res.sendFile(__dirname + '/success.html');
       });
+      // res.sendFile(__dirname + '/success.html');
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
