@@ -1,7 +1,10 @@
-require('dotenv').config();
-const multer = require('multer');
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config/config')[env];
+
+require("dotenv").config();
+const multer = require("multer");
+const env = process.env.NODE_ENV || "development";
+const config = require("./config/config")[env];
+const Sentry = require("@sentry/node");
+const Tracing = require("@sentry/tracing");
 
 const { exec } = require('child_process');
 const express = require('express');
@@ -13,6 +16,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+Sentry.init({
+  dsn: config.sentry_dns,
+  tracesSampleRate: 1.0,
+});
 
 //Swagger configuration
 const swaggerOptions = {

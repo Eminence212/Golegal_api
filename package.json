@@ -19,6 +19,8 @@
   },
   "homepage": "https://bitbucket.org/kinshasadigital/golegal-export-api#readme",
   "dependencies": {
+    "@sentry/node": "^6.19.3",
+    "@sentry/tracing": "^6.19.3",
     "@sequelize/core": "^7.0.0-alpha.10",
     "batch": "^0.6.1",
     "child_process": "^1.0.2",
