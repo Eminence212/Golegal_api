@@ -19,7 +19,7 @@ definitions:
           - pipe: sonarsource/sonarcloud-quality-gate:0.1.6
     - step: &node-server-deploy
         name: Install dependencies on node server
-        deployment: staging
+        deployment: production
         script:
           - pipe: atlassian/rsync-deploy:0.4.4
             variables:
