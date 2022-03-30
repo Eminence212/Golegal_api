@@ -3,7 +3,6 @@ const multer = require("multer");
 const env = process.env.NODE_ENV || "development";
 const config = require("./config/config")[env];
 const Sentry = require("@sentry/node");
-const Tracing = require("@sentry/tracing");
 
 const { exec } = require("child_process");
 const express = require("express");
@@ -12,6 +11,9 @@ const cookieParser = require("cookie-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const app = express();
+
+app.use(Sentry.Handlers.requestHandler());
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -167,7 +169,7 @@ app.post(
     }
   }
 );
-
+pp.use(Sentry.Handlers.errorHandler());
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
