@@ -51,7 +51,7 @@
 
       <form
         class="row g-3 d-flex align-items-end mb-4"
-        action="/api/golegal/uploadfile"
+        action=""
         enctype="multipart/form-data"
         method="POST"
       >
@@ -67,8 +67,25 @@
           />
         </div>
         <div class="col-auto">
-          <button type="submit" class="btn btn-sm bg-dark text-white">
+          <button
+            type="submit"
+            class="btn btn-sm bg-dark text-white"
+            id="btn-1"
+          >
             Charger
+          </button>
+          <button
+            class="btn btn-sm bg-dark text-white d-none"
+            type="button"
+            disabled
+            id="btn-2"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Chargement...
           </button>
         </div>
       </form>
@@ -111,5 +128,20 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const btn1 = document.getElementById('btn-1');
+      const btn2 = document.getElementById('btn-2');
+      btn1.classList.remove('d-none');
+      btn1.classList.add('d-block');
+      btn2.classList.remove('d-block');
+      btn2.classList.add('d-none');
+      btn1.addEventListener('click', function (e) {
+        e.preventDefault();
+        btn1.classList.add('d-none');
+        btn1.classList.remove('d-block');
+        btn2.classList.remove('d-none');
+        btn2.classList.add('d-block');
+      });
+    </script>
   </body>
 </html>
