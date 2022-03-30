@@ -17,8 +17,27 @@ definitions:
         name: Check the Quality Gate on SonarCloud
         script:
           - pipe: sonarsource/sonarcloud-quality-gate:0.1.6
+    - step: &node-server-deploy
+        name: Install dependencies on node server
+        deployment: staging
+        script:
+          - pipe: atlassian/rsync-deploy:0.4.4
+            variables:
+              USER: $USER
+              SERVER: $SERVER
+              SSH_PORT: $PORT
+              REMOTE_PATH: $DEPLOY_PATH
+              DEBUG: "true"
+              LOCAL_PATH: "$BITBUCKET_CLONE_DIR/**"
+          - pipe: atlassian/ssh-run:0.3.0
+            variables:
+              SSH_USER: $USER
+              SERVER: $SERVER
+              COMMAND: "cd www && npm install && pm2 start"
+              DEBUG: "true"
+              PORT: $PORT
 
 pipelines:
   branches:
     master:
-      - step: *build-test-sonarcloud
+      - step: *node-server-deploy
