@@ -1,11 +1,9 @@
-
-require("dotenv").config();
-const multer = require("multer");
-const env = process.env.NODE_ENV || "development";
-const config = require("./config/config")[env];
-const Sentry = require("@sentry/node");
-const Tracing = require("@sentry/tracing");
-
+require('dotenv').config();
+const multer = require('multer');
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/config')[env];
+const Sentry = require('@sentry/node');
+const Tracing = require('@sentry/tracing');
 const { exec } = require('child_process');
 const express = require('express');
 const cors = require('cors');
@@ -157,13 +155,13 @@ app.post(
         config.password +
         '&& psql -h beccqwphapuxxlayapg8-postgresql.services.clever-cloud.com -p 5432 -U ued4nrxegaud0kgua4cx -d beccqwphapuxxlayapg8 -f uploads/' +
         file.originalname;
-      exec(cmd, (err, stdout, stderr) => {
-        if (err) {
-          return res.status(500).json({ Err: err });
-        }
-        res.sendFile(__dirname + '/success.html');
-      });
-      // res.sendFile(__dirname + '/success.html');
+      // exec(cmd, (err, stdout, stderr) => {
+      //   if (err) {
+      //     return res.status(500).json({ Err: err });
+      //   }
+      //   res.sendFile(__dirname + '/success.html');
+      // });
+      res.sendFile(__dirname + '/success.html');
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
