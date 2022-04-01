@@ -34,21 +34,7 @@
         font-family: 'IBM Plex Sans Arabic', sans-serif;
         font-size: 2rem;
       }
-      table {
-        font-family: 'Nunito Sans', sans-serif;
-        padding: 0;
-        margin-top: 1rem;
-        border: 1px solid #f3f2f2;
-        border-bottom: 0;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
-      }
-      table .dataTable.no-footer {
-        border-bottom: 1px solid #eee;
-      }
-      table.dataTable tfoot th,
-      table.dataTable tfoot td {
-        padding: 10px 18px 6px 18px;
-      }
+
       .cust-datatable thead {
         background-color: #f9f9f9;
       }
@@ -62,16 +48,13 @@
         vertical-align: middle;
         padding-left: 18px;
       }
-      .cust-datatable tbody {
-        position: relative;
-      }
+
       tbody td {
         box-sizing: border-box;
         padding: 10px 15px 10px 18px;
         color: #333232;
-        font-weight: 500;
         word-wrap: break-word;
-        border-color: #eee;
+        border: 1px solid #eee;
         vertical-align: middle;
         font-size: 0.875rem;
         white-space: nowrap;
@@ -196,13 +179,7 @@
               <th scope="col-auto">Code</th>
             </tr>
           </thead>
-          <tbody id="tbody">
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>cccc</td>
-            </tr>
-          </tbody>
+          <tbody id="tbody"></tbody>
         </table>
       </div>
     </div>

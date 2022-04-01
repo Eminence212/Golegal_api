@@ -155,13 +155,13 @@ app.post(
         config.password +
         '&& psql -h beccqwphapuxxlayapg8-postgresql.services.clever-cloud.com -p 5432 -U ued4nrxegaud0kgua4cx -d beccqwphapuxxlayapg8 -f uploads/' +
         file.originalname;
-      // exec(cmd, (err, stdout, stderr) => {
-      //   if (err) {
-      //     return res.status(500).json({ Err: err });
-      //   }
-      //   res.sendFile(__dirname + '/success.html');
-      // });
-      res.sendFile(__dirname + '/success.html');
+      exec(cmd, (err, stdout, stderr) => {
+        if (err) {
+          return res.status(500).json({ Err: err });
+        }
+        res.sendFile(__dirname + '/success.html');
+      });
+      // res.sendFile(__dirname + '/success.html');
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
