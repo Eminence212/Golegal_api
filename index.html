@@ -205,6 +205,21 @@
           $('#btn-2').removeClass('d-none').addClass('d-block');
         });
         //Affichage des tables
+        //Copy text
+        function copierTexte(text) {
+          console.log(text);
+          // if (textarea_texte.value.length) {
+          //   // 2. On copie le texte dans le presse-papier
+          //   navigator.clipboard.writeText(textarea_texte.value).then(() => {
+          //     // 3. On réinitialise le formulaire
+          //     form_copier_coller.reset();
+          //     // 4. On affiche l'alert
+          //     alert('Texte copié !');
+          //   });
+          // } else {
+          //   alert('Veillez saisir le texte à copier');
+          // }
+        }
         //Row
         function addRow(item, index) {
           const tr = document.createElement('tr');
@@ -220,7 +235,17 @@
           th.append(text1);
           td1.append(text2);
           td2.append(text3);
-
+          td2.classList.add('copy');
+          td2.addEventListener(
+            'click',
+            function (e) {
+              e.preventDefault();
+              navigator.clipboard.writeText(this.innerText).then(() => {
+                alert('Code copié !');
+              });
+            },
+            false
+          );
           tr.append(th, td1, td2);
           return tr;
         }

@@ -25,7 +25,7 @@ const ordersControllers = {
     try {
       const tablesList = [];
       const data = await sequelize.query(
-        "SELECT * FROM information_schema.tables WHERE table_schema = 'public';",
+        "SELECT * FROM information_schema.tables WHERE table_schema = 'public' AND table_type ='BASE TABLE';",
         {
           type: QueryTypes.SELECT,
         }

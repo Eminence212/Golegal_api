@@ -286,7 +286,16 @@
           th.append(text1);
           td1.append(text2);
           td2.append(text3);
-
+          td2.addEventListener(
+            'click',
+            function (e) {
+              e.preventDefault();
+              navigator.clipboard.writeText(this.innerText).then(() => {
+                alert('Code copié !');
+              });
+            },
+            false
+          );
           tr.append(th, td1, td2);
           return tr;
         }
