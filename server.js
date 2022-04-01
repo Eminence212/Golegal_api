@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require('dotenv').config();
 const multer = require('multer');
 const env = process.env.NODE_ENV || 'development';
@@ -10,7 +11,24 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+=======
+require("dotenv").config();
+const multer = require("multer");
+const env = process.env.NODE_ENV || "development";
+const config = require("./config/config")[env];
+const Sentry = require("@sentry/node");
+
+const { exec } = require("child_process");
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+>>>>>>> d014db7fef92b828742ace944e6350e84b7fa506
 const app = express();
+
+app.use(Sentry.Handlers.requestHandler());
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -24,24 +42,24 @@ Sentry.init({
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: 'Golegal API',
-      description: 'Golegal API description',
+      title: "Golegal API",
+      description: "Golegal API description",
       contact: {
-        name: '',
+        name: "",
       },
       servers: [
-        'https://golegal.tech',
-        'http://localhost:8000',
-        'https://golegalapi.herokuapp.com',
+        "https://golegal.tech",
+        "http://localhost:8000",
+        "https://golegalapi.herokuapp.com",
       ],
     },
   },
   //['.routes/*.js']
-  apis: ['server.js'],
+  apis: ["server.js"],
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use(
-  '/api/golegal/documentation',
+  "/api/golegal/documentation",
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocs)
 );
@@ -116,14 +134,14 @@ app.use(
  *          500:
  *            description: Failure of response
  */
-app.use('/api/golegal', require('./routes/ordersRoutes'));
+app.use("/api/golegal", require("./routes/ordersRoutes"));
 
 // Upload file
 // SET STORAGE
-const regex = new RegExp('[^.]+$');
+const regex = new RegExp("[^.]+$");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads');
+    cb(null, "uploads");
   },
   filename: function (req, file, cb) {
     const extension = file.originalname.match(regex);
@@ -133,33 +151,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
 });
 app.post(
-  '/api/golegal/uploadfile',
-  upload.single('script'),
+  "/api/golegal/uploadfile",
+  upload.single("script"),
   async (req, res, next) => {
     try {
       const file = req.file;
       // const client = new Client();
-      if (!file) return res.status(500).json({ msg: 'Please upload a file' });
+      if (!file) return res.status(500).json({ msg: "Please upload a file" });
 
       const extension = file.originalname.match(regex);
-      if (extension != 'sql')
-        return res.status(400).json({ msg: 'Please upload a sql file' });
-      const path = __dirname + '/uploads/' + file.originalname;
+      if (extension != "sql")
+        return res.status(400).json({ msg: "Please upload a sql file" });
+      const path = __dirname + "/uploads/" + file.originalname;
 
       const cmd =
-        'set PGPASSWORD=' +
+        "set PGPASSWORD=" +
         config.password +
-        '&& psql -h beccqwphapuxxlayapg8-postgresql.services.clever-cloud.com -p 5432 -U ued4nrxegaud0kgua4cx -d beccqwphapuxxlayapg8 -f uploads/' +
+        "&& psql -h beccqwphapuxxlayapg8-postgresql.services.clever-cloud.com -p 5432 -U ued4nrxegaud0kgua4cx -d beccqwphapuxxlayapg8 -f uploads/" +
         file.originalname;
       exec(cmd, (err, stdout, stderr) => {
         if (err) {
           return res.status(500).json({ Err: err });
         }
-        res.sendFile(__dirname + '/success.html');
+        res.sendFile(__dirname + "/success.html");
       });
       // res.sendFile(__dirname + '/success.html');
     } catch (error) {
@@ -168,6 +186,7 @@ app.post(
   }
 );
 
+app.use(Sentry.Handlers.errorHandler());
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
